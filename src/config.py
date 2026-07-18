@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     chunk_overlap_chars: int = 150
     retriever_top_k: int = 4
     
-    upload_dir: str = "/tmp/uploads"
+    upload_dir: str = "./tmp/uploads"
     
 @lru_cache
 def get_settings() -> Settings:

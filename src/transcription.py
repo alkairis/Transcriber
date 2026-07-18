@@ -1,7 +1,7 @@
 import av
 from faster_whisper import WhisperModel
 from .schemas import Segment
-from config import Settings
+from .config import Settings
 
 
 class Transcriber:
