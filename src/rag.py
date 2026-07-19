@@ -1,5 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
+from langchain_aws import ChatBedrockConverse
 from .config import Settings
 from .schemas import Citation
 
@@ -10,10 +10,9 @@ _SYS = (
 )
  
 def _llm(settings: Settings):
-    return ChatOllama(
+    return ChatBedrockConverse(
         model=settings.llm_model,
-        base_url=settings.ollama_base_url,
-        num_ctx=settings.num_ctx,
+        region_name=settings.region_name,
         temperature=settings.temperature
     )
     

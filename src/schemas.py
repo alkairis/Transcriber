@@ -8,7 +8,7 @@ class Segment(BaseModel):
     
 class JobStatus(BaseModel):
     job_id: str
-    status: Literal["queued", "transcribing", "indexing", "completed", "failed"]
+    status: Literal["queued", "transcribing", "indexing", "done", "error"]
     error: Optional[str] = None
     duration_sec: Optional[float] = None
     language: Optional[str] = None
@@ -19,6 +19,10 @@ class TranscriptResponse(JobStatus):
     segments: Optional[list[Segment]] = None
     
 class SummarizeRequest(BaseModel):
+    style: Literal["bullets", "paragraph", "action_items"] = "bullets"
+    instructions: Optional[str] = None
+   
+class SummarizeResponse(BaseModel):
     job_id: str
     summary: str
     method: Literal["single_shot", "map_reduce"]

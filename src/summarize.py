@@ -1,3 +1,4 @@
+from langchain_aws import ChatBedrockConverse
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -11,11 +12,10 @@ _STYLE = {
 }
 
 def _llm(settings: Settings):
-    return ChatOllama(
+    return ChatBedrockConverse(
         model=settings.llm_model,
-        base_url=settings.ollama_base_url,
-        num_ctx=settings.num_ctx,
-        temperature=settings.temperature,
+        region_name=settings.region_name,
+        temperature=settings.temperature
     )
     
 def _estimate_tokens(text:str): return len(text.strip())//4
@@ -35,7 +35,7 @@ def summarize(text:str, style:str, instructions: str|None, settings: Settings):
         return out.content, "single_shot"
     return _map_reduce(text, hint, extra, llm, settings), "map_reduce"
 
-def _map_reduce(text: str, hint: str, extra:str, llm: ChatOllama, settings: Settings):
+def _map_reduce(text: str, hint: str, extra:str, llm: ChatBedrockConverse, settings: Settings):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size = int(settings.num_ctx*0.5)*4,
         chunk_overlap = settings.chunk_overlap_chars
